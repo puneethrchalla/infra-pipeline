@@ -28,8 +28,8 @@ parse_arguments $ARGS
 after_arguments_parsed
 
 # Put together the Terraform boilerplate.
-STATEFOLDER=$(get_terraform_state_folder) && layer_debug "\$STATEFOLDER: $STATEFOLDER"
-STATEFILE=$(get_state_filename) && layer_debug "\$STATEFILE: $STATEFILE"
+STATEFOLDER=$(get_terraform_state_folder)
+STATEFILE=$(get_state_filename)
 
 create_terraform_configuration_file layer_echo $LAYER_NAME
 
