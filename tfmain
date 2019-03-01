@@ -55,12 +55,9 @@ fi
 
 echo "Executing ${LAYER}..."
 
-# Copy Global Vars file to layer's directory
-cp ./global-vars.tf ./$LAYER/global.tf
-
 # Change directory to the layer's directory, and run the layer.
-pushd "$LAYER" > /dev/null
-		
+cd ${LAYER} 
+
 set +e
 		
 ../layer-run.sh $LAYER "--${MODE}" --vars "$TFVARS" $ENVIRON $AWS_PROF \
@@ -76,7 +73,7 @@ if [[ "${MODE}" == "terminate" && "${DRY_RUN}" == "false" && "$SCRIPT_EXIT_CODE"
 	clean_up_terraform_state_for_layer "$LAYER"
 fi
 
-popd > /dev/null
+cd ..
 
 if [[ "$SCRIPT_EXIT_CODE" != 0 ]]; then
 	exit $SCRIPT_EXIT_CODE
