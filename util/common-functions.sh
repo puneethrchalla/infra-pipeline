@@ -2,25 +2,25 @@ function get_terraform_state_region() { echo "us-east-1"; }
 function get_terraform_state_bucket() { echo "${STATE_BUCKET}"; }
 
 # Terraform state folders
-function get_network_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-network"; }
-function get_database_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-database"; }
-function get_compute_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-compute"; }
-function get_identity_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-identity"; }
-function get_app_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-app"; }
-function get_web_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-web"; }
-function get_elb_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-elb"; }
-function get_networking_rules_state_folder() { echo "${ENVIRON}/${ENV_TYPE}/${AWS_REG}/layer-networking-rules"; }
+function get_network_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-network"; }
+function get_database_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-database"; }
+function get_compute_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-compute"; }
+function get_identity_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-identity"; }
+function get_app_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-app"; }
+function get_web_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-web"; }
+function get_elb_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-elb"; }
+function get_networking_rules_state_folder() { echo "${ENVIRON}/${AWS_REG}/layer-networking-rules"; }
 
 TERRAFORM_CONFIG_FILE="terraform_config.tf"
 
-NETWORK_STATE_FILE="terraform-network.tfstate"
-DATABASE_STATE_FILE="terraform-database.tfstate"
-COMPUTE_STATE_FILE="terraform-compute.tfstate"
-IDENTITY_STATE_FILE="terraform-identity.tfstate"
-APP_STATE_FILE="terraform-app.tfstate"
-WEB_STATE_FILE="terraform-web.tfstate"
-ELB_STATE_FILE="terraform-elb.tfstate"
-NETWORKING_RULES_STATE_FILE="terraform-networking-rules.tfstate"
+LAYER_NETWORK_STATE_FILE="terraform-network.tfstate"
+LAYER_DATABASE_STATE_FILE="terraform-database.tfstate"
+LAYER_COMPUTE_STATE_FILE="terraform-compute.tfstate"
+LAYER_IDENTITY_STATE_FILE="terraform-identity.tfstate"
+LAYER_APP_STATE_FILE="terraform-app.tfstate"
+LAYER_WEB_STATE_FILE="terraform-web.tfstate"
+LAYER_ELB_STATE_FILE="terraform-elb.tfstate"
+LAYER_NETWORKING_RULES_STATE_FILE="terraform-networking-rules.tfstate"
 
 function taint_or_remove() {
 	set +e
@@ -172,21 +172,21 @@ function get_terraform_state_folder_for_layer() {
 
 	# Depending on the layer's name, use convention to derive its state folder.
 	# There are some special exceptions for a couple layer0 instances (for now).
-	if [[ "$LAYER_NAME" == "network" ]]; then
+	if [[ "$LAYER_NAME" == "layer_network" ]]; then
 		echo $(get_network_state_folder)
-	elif [[ "$LAYER_NAME" == "identity" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_identity" ]]; then
 		echo $(get_identity_state_folder)
-	elif [[ "$LAYER_NAME" == "database" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_database" ]]; then
 		echo $(get_database_state_folder)
-	elif [[ "$LAYER_NAME" == "compute" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_compute" ]]; then
 		echo $(get_compute_state_folder)
-	elif [[ "$LAYER_NAME" == "app" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_app" ]]; then
 		echo $(get_app_state_folder)
-	elif [[ "$LAYER_NAME" == "web" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_web" ]]; then
 		echo $(get_web_state_folder)
-	elif [[ "$LAYER_NAME" == "elb" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_elb" ]]; then
 		echo $(get_elb_state_folder)
-	elif [[ "$LAYER_NAME" == "networking_rules" ]]; then
+	elif [[ "$LAYER_NAME" == "layer_networking_rules" ]]; then
 		echo $(get_networking_rules_state_folder)
 	else
 		layer_echo "Could not determine a Terraform state folder for layer '$LAYER_NAME'."

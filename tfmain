@@ -39,26 +39,6 @@ if [ "$RM_STATE" != "" ]; then
 	LAYER_RM_STATE="--rm-state $RM_STATE"
 fi
 
-# Pass DR Region (applicable only during FailBack process)
-if [ "$DR_AWS_REG" != "" ]; then
-	DR_REG="--dr-region $DR_AWS_REG"
-fi
-
-# Is this for DR?
-DISAS_RECOVERY=""
-
-if [[ "$DR" == "true" ]]; then
-	DISAS_RECOVERY="--DR"
-	TFVARS="${ENV}-dr" 
-else
-	TFVARS="${ENV}-primary"
-fi
-
-# Is this is failover step?
-if [[ "$FAILBACK" == "true" ]]; then
-	RECOVERY="--failback"
-fi
-
 # Is this a dry run?
 LAYER_DRYRUN=""
 
@@ -76,16 +56,16 @@ fi
 echo "Executing ${LAYER}..."
 
 # Copy Global Vars file to layer's directory
-cp ./global-vars.tf ./layer_$LAYER/global.tf
+cp ./global-vars.tf ./$LAYER/global.tf
 
 # Change directory to the layer's directory, and run the layer.
-pushd "layer_$LAYER" > /dev/null
+pushd "$LAYER" > /dev/null
 		
 set +e
 		
-../layer-run.sh $LAYER "--${MODE}" --vars "$TFVARS" $ENVIRON $AWS_PROF $DISAS_RECOVERY \
-$LAYER_BACK_UP_STATE_FILE $AWS_REG $DR_REG $LAYER_RM_STATE $LAYER_TAINT $LAYER_DRYRUN \
-$LAYER_VAR_OVERRIDE $RECOVERY $EXTRA_PARAMETERS
+../layer-run.sh $LAYER "--${MODE}" --vars "$TFVARS" $ENVIRON $AWS_PROF \
+$LAYER_BACK_UP_STATE_FILE $AWS_REG $LAYER_RM_STATE $LAYER_TAINT $LAYER_DRYRUN \
+$LAYER_VAR_OVERRIDE $EXTRA_PARAMETERS
 
 SCRIPT_EXIT_CODE=$?
 		

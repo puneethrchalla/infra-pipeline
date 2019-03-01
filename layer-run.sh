@@ -33,16 +33,6 @@ STATEFILE=$(get_state_filename) && layer_debug "\$STATEFILE: $STATEFILE"
 
 create_terraform_configuration_file layer_echo $LAYER_NAME
 
-if [[ "$FAILBACK" == "true" ]]; then
-	DB_STATEFOLDER="${ENV}/DR/${DR_AWS_REG}/layer-database"
-	DB_STATEFILE="terraform-database.tfstate"
-	append_generic_terraform_state "dr-database" "${DB_STATEFOLDER}/${DB_STATEFILE}"
-else
-	DB_STATEFOLDER="${ENV}/failback"
-	DB_STATEFILE="failback.tfstate"
-	append_generic_terraform_state "dr-database" "${DB_STATEFOLDER}/${DB_STATEFILE}"
-fi
-
 after_terraform_created
 
 layer_debug "Terraform configuration file ($TERRAFORM_CONFIG_FILE) contents:"

@@ -1,25 +1,18 @@
-pipeline {
-    agent any
-    stages {
-        stage('checkout') {
-            steps {
-                checkout scm
-                sh 'echo "Checkout Successful"'
+node {
+    def chains = 'hello,puneeth,karim,chacha world,reddy there,modi'.tokenize(' ')
+    for(chain in chains) {
+        echo "${chain}"
+        def threads = [:]
+        for(layer in chain.tokenize(',')) {
+            def layer_name = layer
+            echo "Executing ${layer}"
+            threads["${layer}"] = {
+                build job: 'print-layer', parameters: [
+                    string(name: 'layer_name', value: "${layer_name}")
+                    ]
             }
         }
-        stage('terraform plan & apply') {
-            steps {
-                sh './tfmain'
-            }
-        }
-        stage('infra-tests') {
-            steps {
-                sh 'echo "AWSPEC tests for the Deployed Components"'
-		sh 'echo "Starting awspec....."'
-                sh '''#!/bin/bash -l
-                cd test
-                #./RunSpec.sh'''
-            } 
-        }
+        echo "${threads}"
+        parallel threads
     }
 }
