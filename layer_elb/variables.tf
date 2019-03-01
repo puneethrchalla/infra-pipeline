@@ -9,7 +9,7 @@ variable "web_elb_name" {
 }
 
 variable "static_cluster_elb_name" {
-  default = "ELB-STATIC-CLUSTER"
+  default = "ELB-CLSTR"
   type    = "string"
 }
 
