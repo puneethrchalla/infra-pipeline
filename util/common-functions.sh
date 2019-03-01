@@ -209,7 +209,7 @@ function append_layer_dependencies_remote_state() {
 
 	$ECHO_FUNCTION "Layer dependencies: $DEPENDENCIES"
 
-	if [[ -z "$DEPENDENCIES" ]]; then
+	if [[ ! -z "$DEPENDENCIES" ]]; then
 	# For each layer this layer depends on, append the remote state for it.
 		for DEPENDENCY in $DEPENDENCIES
 		do
