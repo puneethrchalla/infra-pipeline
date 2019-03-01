@@ -121,13 +121,10 @@ function calculate_layer_dependencies() {
 			
 		# If we figured out there is something to do, then let's do it.
 		if [[ ! -z "$SCOPE" ]]; then
-			CREATE_EXECUTION_LIST=true				
+			CREATE_EXECUTION_LIST=true
+			SCOPE=""			
 		fi
 	fi
-
-	# This is the list of layer chains, i.e. "a,b,c d,e f".
-	# This is what we will run, and in what order we will run it.
-	LAYER_CHAIN=""
 
 	echo "$CREATE_EXECUTION_LIST"
 	
