@@ -56,7 +56,7 @@ fi
 echo "Executing ${LAYER}..."
 
 # Copy Global Vars
-cp ./global-vars.tf ./${LAYER}/
+cp -r ./global-vars.tf ./${LAYER}/
 
 sleep 10
 
