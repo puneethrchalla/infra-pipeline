@@ -185,6 +185,8 @@ function execute_layer() {
 
 		PLAN_EXIT_CODE=$?
 
+		cat tf.out
+
 		set -e
 
 		layer_debug "Terraform 'plan' exit code: $PLAN_EXIT_CODE"
