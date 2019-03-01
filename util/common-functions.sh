@@ -205,7 +205,7 @@ function get_terraform_state_filename_for_layer() {
 
 function append_layer_dependencies_remote_state() {
 	local ECHO_FUNCTION=$1
-	local DEPENDENCIES=$(cat ../layer-dependencies.json | jq -r ".dependencies.${LAYER} | @csv" | sed 's/"//g' | sed 's/,/ /g')
+	local DEPENDENCIES=$(cat ../layer_dependencies.json | jq -r ".dependencies.${LAYER} | @csv" | sed 's/"//g' | sed 's/,/ /g')
 
 	$ECHO_FUNCTION "Layer dependencies: $DEPENDENCIES"
 
