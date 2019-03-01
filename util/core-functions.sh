@@ -102,17 +102,11 @@ function clean_up_terraform_state_for_layer() {
 }
 
 function calculate_layer_dependencies() {
+	local SCOPE="$1"
+	local LAYER_RIPPLE="$2"
+	local MODE="$3"
 	# Get our list of layers and their dependencies on other layers, and write them to a file.
 	python create_layer_dependencies.py
-
-	# Figure out the list of layers to run, based on the layers given to rlizone and other options.
-	local MODE=""
-
-	if [ "$CREATE" == "true" ]; then
-		MODE="create"
-	elif [ "$TERMINATE" == "true" ]; then
-		MODE="terminate"
-	fi
 	
 	# This is so we control whether we should create a layer manifest to run.
 	# There are circumstances where we will not want to.
@@ -123,7 +117,7 @@ function calculate_layer_dependencies() {
 	if [[ "$AUTO_CALCULATE_LAYERS" == "false" ]]; then
 		CREATE_EXECUTION_LIST=true
 	else
-		echo "Auto-calculation mode detected."	
+		echo "Auto-calculation mode detected."
 			
 		# If we figured out there is something to do, then let's do it.
 		if [[ ! -z "$SCOPE" ]]; then
@@ -134,11 +128,11 @@ function calculate_layer_dependencies() {
 	# This is the list of layer chains, i.e. "a,b,c d,e f".
 	# This is what we will run, and in what order we will run it.
 	LAYER_CHAIN=""
+
+	echo "$CREATE_EXECUTION_LIST"
 	
 	if [[ "$CREATE_EXECUTION_LIST" == "true" ]]; then
 		# Do not allow "resuming" or "excluding" when layer auto-calculation is on. We want the full thing to run cleanly.
-		local LOCAL_START_AT_LAYER="$START_AT_LAYER"
-		local LOCAL_STOP_AT_LAYER="$STOP_AT_LAYER"
 		local LOCAL_LAYER_RIPPLE="$LAYER_RIPPLE"
 		
 		if [[ "$AUTO_CALCULATE_LAYERS" == "true" ]]; then
@@ -146,8 +140,12 @@ function calculate_layer_dependencies() {
 			LOCAL_STOP_AT_LAYER=""
 			LOCAL_LAYER_RIPPLE="downstream"
 		fi
-		
+		echo $SCOPE
+		echo $MODE
+		echo $LOCAL_LAYER_RIPPLE
+
 		LAYER_CHAIN=$(python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE")
+		echo $LAYER_CHAIN
 	fi
 }
 
