@@ -107,44 +107,14 @@ function calculate_layer_dependencies() {
 	local MODE="$3"
 	# Get our list of layers and their dependencies on other layers, and write them to a file.
 	python create_layer_dependencies.py
-	
-	# This is so we control whether we should create a layer manifest to run.
-	# There are circumstances where we will not want to.
-	local CREATE_EXECUTION_LIST=false
 
-	# If we wanted our layers automatically figured out for us, then do it.
-	# If we didn't want them calculated, we'll always create a layer manifest.
-	if [[ "$AUTO_CALCULATE_LAYERS" == "false" ]]; then
-		CREATE_EXECUTION_LIST=true
-	else
-		echo "Auto-calculation mode detected."
-			
-		# If we figured out there is something to do, then let's do it.
-		if [[ ! -z "$SCOPE" ]]; then
-			CREATE_EXECUTION_LIST=true
-		else
-			SCOPE=""			
-		fi
-	fi
-
-	echo "$CREATE_EXECUTION_LIST"
-	
-	if [[ "$CREATE_EXECUTION_LIST" == "true" ]]; then
-		# Do not allow "resuming" or "excluding" when layer auto-calculation is on. We want the full thing to run cleanly.
-		local LOCAL_LAYER_RIPPLE="$LAYER_RIPPLE"
+	local LOCAL_LAYER_RIPPLE="$LAYER_RIPPLE"
 		
-		if [[ "$AUTO_CALCULATE_LAYERS" == "true" ]]; then
-			LOCAL_START_LAYER=""
-			LOCAL_STOP_AT_LAYER=""
-			LOCAL_LAYER_RIPPLE="downstream"
-		fi
-		echo "$SCOPE"
-		echo $MODE
-		echo $LOCAL_LAYER_RIPPLE
+	echo "$SCOPE"
+	echo $MODE
+	echo $LOCAL_LAYER_RIPPLE
 
-		python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE" > chains.txt
-		
-	fi
+	python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE" > chains.txt
 }
 
 function execute_layer() {
