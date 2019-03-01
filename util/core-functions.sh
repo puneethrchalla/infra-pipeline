@@ -102,7 +102,7 @@ function clean_up_terraform_state_for_layer() {
 }
 
 function calculate_layer_dependencies() {
-	local SCOPE=$1
+	local SCOPE="$1"
 	local LAYER_RIPPLE="$2"
 	local MODE="$3"
 	# Get our list of layers and their dependencies on other layers, and write them to a file.
@@ -120,7 +120,7 @@ function calculate_layer_dependencies() {
 		echo "Auto-calculation mode detected."
 			
 		# If we figured out there is something to do, then let's do it.
-		if [[ ! -z $SCOPE ]]; then
+		if [[ ! -z "$SCOPE" ]]; then
 			CREATE_EXECUTION_LIST=true				
 		fi
 	fi
@@ -140,11 +140,11 @@ function calculate_layer_dependencies() {
 			LOCAL_STOP_AT_LAYER=""
 			LOCAL_LAYER_RIPPLE="downstream"
 		fi
-		echo $SCOPE
+		echo "$SCOPE"
 		echo $MODE
 		echo $LOCAL_LAYER_RIPPLE
 
-		LAYER_CHAIN=$(python create_layer_execution_list.py $SCOPE "$MODE" "$LOCAL_LAYER_RIPPLE")
+		LAYER_CHAIN=$(python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE")
 		echo $LAYER_CHAIN
 	fi
 }
