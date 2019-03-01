@@ -209,20 +209,22 @@ function append_layer_dependencies_remote_state() {
 
 	$ECHO_FUNCTION "Layer dependencies: $DEPENDENCIES"
 
+	if [[ -z "$DEPENDENCIES" ]]; then
 	# For each layer this layer depends on, append the remote state for it.
-	for DEPENDENCY in $DEPENDENCIES
-	do
-		# If there is an explicit function for this layer to append its state, call it.
-		local APPEND_FUNCTION="append_${DEPENDENCY}_terraform_state"
+		for DEPENDENCY in $DEPENDENCIES
+		do
+			# If there is an explicit function for this layer to append its state, call it.
+			local APPEND_FUNCTION="append_${DEPENDENCY}_terraform_state"
 
-		if [[ $(type -t "$APPEND_FUNCTION") == "function" ]]; then
-			eval "$APPEND_FUNCTION"
-		else
-			# Otherwise, call a generic function.
-			local STATE_FOLDER=$(get_terraform_state_folder_for_layer $DEPENDENCY)
-			local STATE_FILE=$(get_terraform_state_filename_for_layer $DEPENDENCY)
+			if [[ $(type -t "$APPEND_FUNCTION") == "function" ]]; then
+				eval "$APPEND_FUNCTION"
+			else
+				# Otherwise, call a generic function.
+				local STATE_FOLDER=$(get_terraform_state_folder_for_layer $DEPENDENCY)
+				local STATE_FILE=$(get_terraform_state_filename_for_layer $DEPENDENCY)
 
-			append_generic_terraform_state "$DEPENDENCY" "${STATE_FOLDER}/${STATE_FILE}"
-		fi
-	done
+				append_generic_terraform_state "$DEPENDENCY" "${STATE_FOLDER}/${STATE_FILE}"
+			fi
+		done
+	fi
 }
