@@ -35,7 +35,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "aws_elb_attachment" "cluster_elb_attachment" {
-  count    = "${var.static_instance_count}"
+  count    = "${var.instance_count}"
   elb      = "${data.terraform_remote_state.layer_elb.static_cluster_elb_id}"
   instance = "${element(aws_instance.instance.*.id, count.index)}"
 }

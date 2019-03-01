@@ -94,10 +94,3 @@ variable "vault_ip" {
 variable "vault_port" {
   default = "8200"
 }
-
-#ELASTICSEARCH VARIABLES
-variable "elasticsearch_instance_type" {}
-
-variable "elasticsearch_instance_count" {}
-
-variable "elasticsearch_zone_awareness" {}
