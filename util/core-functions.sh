@@ -122,6 +122,7 @@ function calculate_layer_dependencies() {
 		# If we figured out there is something to do, then let's do it.
 		if [[ ! -z "$SCOPE" ]]; then
 			CREATE_EXECUTION_LIST=true
+		else
 			SCOPE=""			
 		fi
 	fi
