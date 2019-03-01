@@ -1,0 +1,25 @@
+{
+    "chain": [
+        [
+            "layer_identity",
+            "layer_network"
+        ],
+        [
+            "layer_elb"
+        ],
+        [
+            "layer_compute"
+        ]
+    ],
+    "dependencies": {
+        "layer_compute": [
+            "layer_network",
+            "layer_elb"
+        ],
+        "layer_elb": [
+            "layer_network"
+        ],
+        "layer_identity": [],
+        "layer_network": []
+    }
+}

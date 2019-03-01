@@ -55,11 +55,6 @@ fi
 
 echo "Executing ${LAYER}..."
 
-# Copy Global Vars
-cp -r ./global-vars.tf ./${LAYER}/
-
-sleep 10
-
 # Change directory to the layer's directory, and run the layer.
 cd ${LAYER} 
 
