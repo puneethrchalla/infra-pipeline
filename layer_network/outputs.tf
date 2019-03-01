@@ -22,10 +22,6 @@ output az_count {
   "value" = "${var.az_count}"
 }
 
-output "region" {
-  "value" = "${data.aws_region.current.name}"
-}
-
 output "App_Subnet_ID" {
   "value" = "${join(",",aws_subnet.App_Subnet.*.id)}"
 }
