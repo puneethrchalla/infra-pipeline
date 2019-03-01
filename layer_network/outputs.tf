@@ -53,7 +53,3 @@ output "Private_RT" {
 output "IGW" {
   "value" = "${aws_internet_gateway.IGW.id}"
 }
-
-output "Nat_GTWY" {
-  "value" = "${join(",",aws_nat_gateway.Nat_GTWY.*.id)}"
-}
