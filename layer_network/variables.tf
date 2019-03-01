@@ -48,7 +48,9 @@ variable "az_cidr_length" {
   default = 1
 }
 
-variable "vpc_cidr_block" {}
+variable "vpc_cidr_block" {
+  default = "10.0.0.0/16"
+}
 
 # DNS
 variable "zone_id" {

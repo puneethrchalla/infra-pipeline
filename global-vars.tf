@@ -1,27 +1,23 @@
 # AWS Region
-variable "aws_region" {}
+variable "aws_region" {
+  default = "us-east-1"
+}
 
 # Environment
-variable "environment" {}
+variable "environment" {
+  default = "Dev"
+}
 
 # Max retries
-variable "max_retries" {}
-
-# IAM Assume Roles
-variable "roles" {
-  type = "map"
-
-  default = {
-    preprod = "998179695351"
-    prod    = "356412720976"
-  }
+variable "max_retries" {
+  default = "15"
 }
 
 # TAGS
 variable "owner" {
-  default = "Brad"
+  default = "Puneeth"
 }
 
 variable "project" {
-  default = "DBPP"
+  default = "HV-Internal"
 }
