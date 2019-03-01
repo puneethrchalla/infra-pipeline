@@ -144,8 +144,8 @@ function calculate_layer_dependencies() {
 		echo $MODE
 		echo $LOCAL_LAYER_RIPPLE
 
-		LAYER_CHAIN=$(python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE")
-		echo $LAYER_CHAIN
+		python create_layer_execution_list.py "$SCOPE" "$MODE" "$LOCAL_LAYER_RIPPLE" > chains.txt
+		
 	fi
 }
 
