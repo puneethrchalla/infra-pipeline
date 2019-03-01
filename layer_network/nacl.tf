@@ -39,12 +39,12 @@ resource "aws_network_acl" "NACL" {
   }
 
   egress = {
-    protocol   = "tcp"
+    protocol   = "-1"
     rule_no    = 90
     action     = "Allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = -1
-    to_port    = -1
+    from_port  = 0
+    to_port    = 0
   }
 
   tags = {

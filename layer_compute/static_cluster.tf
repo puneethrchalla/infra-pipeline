@@ -1,22 +1,5 @@
-resource "aws_placement_group" "static_cluster_placement_gp" {
-  name     = "${var.placement_gp_name}"
-  strategy = "spread"
-}
-
-data "template_file" "user_data" {
-  count    = "${var.static_instance_count}"
-  template = "${file("user_data.sh")}"
-
-  vars {
-    env   = "${var.environment}"
-    vault_ip   = "${var.vault_ip}"
-    vault_port = "${var.vault_port}"
-    count = "${count.index}"
-  }
-}
-
 resource "aws_instance" "instance" {
-  count                                = "${var.static_instance_count}"
+  count                                = "${var.instance_count}"
   key_name                             = "${var.key_name}"
   associate_public_ip_address          = false
   vpc_security_group_ids               = ["${aws_security_group.static_cluster_sg.id}","${data.terraform_remote_state.layer_network.mgmt_trusted_sg}"]
@@ -24,10 +7,8 @@ resource "aws_instance" "instance" {
   instance_initiated_shutdown_behavior = "stop"
   iam_instance_profile                 = "${var.ec2_instance_profile}"
   source_dest_check                    = true
-  ami                                  = "${var.cluster_ami_id}"
-  instance_type                        = "${var.static_instance_type}"
-  placement_group                      = "${aws_placement_group.static_cluster_placement_gp.id}"
-  user_data                            = "${element(data.template_file.user_data.*.rendered, count.index + 1)}"
+  ami                                  = "${var.ami_id}"
+  instance_type                        = "${var.instance_type}"
 
   ebs_block_device {
     volume_size           = "${var.volume_size}"

@@ -2,26 +2,12 @@
 
 variable "instance_app_name" {
   type    = "list"
-  default = ["static-cluster-1", "static-cluster-2", "static-cluster-3"]
+  default = ["static-cluster-1", "static-cluster-2"]
 }
 
 variable "az" {
   type    = "list"
   default = ["us-west-1a", "us-west-1b", "us-west-1c"]
-}
-
-variable "elasticsearch_domain" {
-  type    = "string"
-  default = "dpp-elasticsearch"
-}
-
-variable "placement_gp_name" {
-  type    = "string"
-  default = "static-cluster-pg"
-}
-
-variable "autoscaling_iam_profile" {
-  default = "AUTOSCALING_INSTANCE_PROFILE"
 }
 
 variable "ec2_instance_profile" {
@@ -32,7 +18,9 @@ variable "volume_size" {
   default = "50"
 }
 
-variable "cluster_ami_id" {}
+variable "ami_id" {
+  default = "ami-09bfcadb25ee95bec"
+}
 
 variable "role" {
   default = "Cluster"
@@ -49,12 +37,16 @@ variable "sg_name" {
 
 variable "key_name" {
   type    = "string"
-  default = "test_keypair"
+  default = "puneeth-demo-brownbag"
 }
 
-variable "static_instance_type" {}
+variable "instance_type" {
+  default = "t2.micro"
+}
 
-variable "static_instance_count" {}
+variable "instance_count" {
+  default = "2"
+}
 
 
 # ELASTICACHE VARS
