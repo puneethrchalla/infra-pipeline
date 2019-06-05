@@ -9,15 +9,14 @@ node {
     // execute chain
     String fileContents = new File('/var/lib/jenkins/workspace/hv-infra-pipeline/chains.txt').text
     echo "${fileContents}"
-    def chains = 'hello,puneeth,karim,chacha world,reddy there,modi'.tokenize(' ')
+    def chains = "${fileContents}".tokenize(' ')
     for(chain in chains) {
         echo "${chain}"
         def threads = [:]
         for(layer in chain.tokenize(',')) {
             def layer_name = layer
-            echo "Executing ${layer}"
             threads["${layer}"] = {
-                build job: 'print-layer', parameters: [
+                build job: 'run_layer', parameters: [
                     string(name: 'layer_name', value: "${layer_name}")
                     ]
             }
